@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken'
 
-type Environment = 'sandbox' | 'production'
+export type Environment = 'sandbox' | 'production'
 
-interface PaymentInfo {
+export interface PaymentInfo {
   /**
    * Payment amount (up to 2 decimal places).
    */
@@ -14,7 +14,7 @@ interface PaymentInfo {
   currency: 'EUR'
 
   /**
-   * The merchant's name to be displayed in Montonio's interface 
+   * The merchant's name to be displayed in Montonio's interface
    * if it differs from the one set in the Partner System.
    */
   merchant_name?: string
@@ -26,33 +26,33 @@ interface PaymentInfo {
 
   /**
    * The URL where the customer will be redirected back to after completing or cancelling a payment.
-   * Once the customer completes the payment, they will be redirected back to the this URL 
+   * Once the customer completes the payment, they will be redirected back to the this URL
    * with a new `payment_token` appended to it as a query parameter
    */
   merchant_return_url: string
 
   /**
    * The URL to send a webhook notification when a payment is completed.
-   * Once the customer completes the payment, Montonio will send a `POST` request to this URL 
+   * Once the customer completes the payment, Montonio will send a `POST` request to this URL
    * with a new `payment_token` appended to it as a query parameter.
    */
   merchant_notification_url?: string
 
   /**
-   * Description of the payment that will be relayed to the bank's payment order. 
+   * Description of the payment that will be relayed to the bank's payment order.
    * If left blank, it will default to the value of merchant_reference.
    */
   payment_information_unstructured?: string
 
   /**
-   * Structured payment reference number. 
+   * Structured payment reference number.
    * This is a standardised reference number used for accounting purposes and will be validated by banks.
    * Leave blank if you do not use reference numbers to link payments.
    */
   payment_information_structured?: string
 
   /**
-   * The bank that the customer chose for this payment 
+   * The bank that the customer chose for this payment
    * if you allow them to select their bank of choice in your checkout.
    * Leave this blank to let the customer choose their bank in our interface.
    */
@@ -65,7 +65,7 @@ interface PaymentInfo {
   preselected_locale?: 'en_US' | 'et' | 'lt' | 'ru'
 
   /**
-   * The customer's e-mail address. 
+   * The customer's e-mail address.
    * Use this to identify customers more easily in Montonio's Partner System.
    */
   checkout_email?: string
@@ -116,7 +116,6 @@ export const getPaymentToken = ({
     },
   )
 
-
 /**
  * Get payment URL with embedded payment token
  *
@@ -156,7 +155,6 @@ export const getReferenceFromPaymentToken = (
   return decoded.merchant_reference
 }
 
-
 /**
  * Get bank list URL
  *
@@ -188,4 +186,16 @@ export const getBankListUrl = ({
     }payments.montonio.com/pis/v2/merchants/aspsps`,
     auth,
   }
+}
+
+interface Bank {
+  bic: string
+  name: string
+  logo_url: string
+}
+
+type ContryCode = 'FI' | 'EE' | 'LV' | 'LT'
+
+export type BankList = {
+  [key in ContryCode]: Bank[]
 }
