@@ -129,7 +129,7 @@ export const getPaymentUrl = (paymentToken: string, env: Environment = 'sandbox'
 const hasOwnProperty = <X extends object, Y extends PropertyKey>(
   obj: X,
   prop: Y,
-): obj is X & Record<Y, unknown> => obj.hasOwnProperty(prop)
+): obj is X & Record<Y, unknown> => prop in obj
 
 /**
  * Get reference from the payment token
@@ -168,7 +168,7 @@ export const getBankListUrl = ({
   accessKey: string
   secretKey: string
   env: Environment
-}) => {
+}): { url: string; auth: string } => {
   const auth = jwt.sign(
     {
       access_key: accessKey,
