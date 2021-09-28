@@ -1,6 +1,6 @@
 {
   "name": "montonio",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Helper functions for Montonio API",
   "main": "dist/index.js",
   "repository": "git@github.com:Petka17/montonio.git",
